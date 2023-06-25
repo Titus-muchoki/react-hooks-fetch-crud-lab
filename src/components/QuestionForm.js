@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function QuestionForm(props) {
   const [formData, setFormData] = useState({
@@ -16,19 +16,45 @@ function QuestionForm(props) {
       [event.target.name]: event.target.value,
     });
   }
-
   function handleSubmit(event) {
     event.preventDefault();
-      fetch("http://localhost:4000/questions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      })
-      .then((r) => r.json())
-      .then((newQuestion) => console.log(newQuestion))
-  }
+    fetch("http://localhost:4000/questions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: formData.prompt,
+        answers: [
+          formData.answer1,
+          formData.answer2,
+          formData.answer3,
+          formData.answer4,
+        ],
+        correctIndex: parseInt(formData.correctIndex),
+      }),
+    });
+  } 
+
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //     fetch("http://localhost:4000/questions", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //           prompt: formData.prompt,
+  //          answers: [
+  //             formData.answer1,
+  //             formData.answer2,
+  //             formData.answer3,
+  //             formData.answer4,
+  //           ],
+  //         correctIndex: parseInt(formData.correctIndex),
+  //       }),
+  //     });
+  // }
 
   return (
     <section>
